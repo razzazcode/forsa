@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "772973886142",
+    "project_id": "forsa-51fd9",
+    "storage_bucket": "forsa-51fd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772973886142:android:57ba321444494c63013cef",
+        "android_client_info": {
+          "package_name": "com.razzazcode.forsa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772973886142-rc7t33bkohefec4t0qo3rk0kq1k46cre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZoooKMHNszgc5dy2AuigGkAYFwegx89Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772973886142-rc7t33bkohefec4t0qo3rk0kq1k46cre.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
