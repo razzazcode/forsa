@@ -230,7 +230,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   }
 
   chooseImage() async{
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image.add(File(pickedFile?.path));
     });
