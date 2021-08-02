@@ -51,7 +51,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
           next ? Container() :
               ElevatedButton(
                   onPressed: (){
-                    if(_image.length == 5){
+                    if(  _image.length >= 2  && _image.length <= 5){
                       setState(() {
                         uploading = true;
                         next = true;

@@ -39,6 +39,100 @@ class _SignupBodyState extends State<SignupBody> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
+
+
+  PickedFile imageofCamera , pickedimageGallery;
+  File pickedimagewithpath ,  image2gallery;
+
+  Future<void> captureAndPickImage() async {
+    //  _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+  final  imageofCamera =  await ImagePicker().pickImage(
+        source: ImageSource.camera
+    );
+
+
+    pickedimagewithpath = File(imageofCamera.path);
+
+    setState(() {
+      _image = pickedimagewithpath;
+    });
+
+  }
+
+
+  Future<void> galleryPickImage() async {
+    //  _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+   final pickedimageGallery =  await ImagePicker().pickImage(
+        source: ImageSource.gallery
+    );
+
+
+    pickedimagewithpath = File( pickedimageGallery.path);
+
+
+   setState(() {
+     _image = pickedimagewithpath;
+   });
+
+
+  }
+
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Please select a profile picture.'),
+                Text('Would you like to select from gallery or to Capture a new photo ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Camera'),
+              onPressed: () {
+                captureAndPickImage();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Gallery'),
+              onPressed: () {
+
+                Navigator.of(context).pop();
+
+                //  _imageFile =  ImagePicker.pickImage(source: ImageSource.gallery) as File;
+                galleryPickImage();
+                Navigator.of(context).pop();
+
+              },
+
+
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
   chooseImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     File file = File(pickedFile.path);
@@ -109,6 +203,8 @@ class _SignupBodyState extends State<SignupBody> {
     Map<String, dynamic> userData = {
       'userName': _nameController.text.trim(),
       'uId': userId,
+      'password': _passwordController.text.trim(),
+
       'userNumber': _phoneController.text.trim(),
       'imgPro': userPhotoUrl,
       'time': DateTime.now(),
@@ -134,7 +230,7 @@ class _SignupBodyState extends State<SignupBody> {
           children: <Widget>[
             InkWell(
               onTap: (){
-                chooseImage();
+                _showMyDialog();
               },
               child: CircleAvatar(
                 radius: _screenWidth * 0.20,
@@ -169,6 +265,14 @@ class _SignupBodyState extends State<SignupBody> {
               onChanged: (value)
               {
                 _passwordController.text = value;
+              },
+            ),
+            RoundedInputField(
+              hintText: "Phone",
+              icon: Icons.phone,
+              onChanged: (value)
+              {
+                _phoneController.text = value;
               },
             ),
             RoundedButton(
@@ -207,5 +311,8 @@ class _SignupBodyState extends State<SignupBody> {
         ),
       ),
     );
+
+
+
   }
 }
