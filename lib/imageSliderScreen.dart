@@ -158,6 +158,8 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                     }).catchError((onError){
                       print(onError);
                     });
+                    Navigator.pop(context);
+
                   },
                 ),
               ],
