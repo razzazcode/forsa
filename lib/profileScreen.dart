@@ -130,8 +130,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'description': this.description,
                     };
 
-                    FirebaseFirestore.instance.collection('items').doc(selectedDoc).update(itemData).then((value) {
-                      print("Data updated successfully.");
+ FirebaseFirestore.instance.collection('items').doc(selectedDoc)
+     .update(itemData).then((value) {
+     print("Data updated successfully.");
                     }).catchError((onError){
                       print(onError);
                     });

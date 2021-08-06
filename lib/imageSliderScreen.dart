@@ -3,11 +3,21 @@ import 'package:image_slider/image_slider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 class ImageSliderScreen extends StatefulWidget {
 
   final String title, urlImage1, urlImage2, urlImage3, urlImage4, urlImage5;
   final String itemColor, userNumber, description, address;
   final double lat, lng;
+
+
+
+
+
+
 
   ImageSliderScreen({
     this.title,
@@ -34,6 +44,19 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
   TabController tabController;
   static List<String> links = [];
 
+
+  User currentUser;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String userName;
+  String itemModel;
+  String uidd ;
+  String reportDescription;
+  QuerySnapshot items;
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,6 +72,100 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
     links.add(widget.urlImage4);
     links.add(widget.urlImage5);
   }
+
+
+
+
+  Future<bool> showDialogForUpdateData(selectedDoc) async{
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return SingleChildScrollView(
+            child: AlertDialog(
+              title: Text("Update   Data", style: TextStyle(fontSize: 24, fontFamily: "Bebas", letterSpacing: 2.0),),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Enter Your Name',
+                    ),
+                    onChanged: (value){
+                      setState(() {
+                        this.userName = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 5.0),
+
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Enter Item Name',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        this.itemModel = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 5.0),
+
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Write Item Description',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        this.reportDescription = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 5.0),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  child: Text(
+                    "Cancel",
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                ),
+                ElevatedButton(
+                  child: Text(
+                    "Update Now",
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    Map<String, dynamic> itemData = {
+                      'reporterName': this.userName,
+
+                      'itemModel': this.itemModel,
+                      'reportdescription': this.reportDescription,
+                    };
+
+   FirebaseFirestore.instance.collection('items').doc(selectedDoc)
+        .collection('Reports').doc(currentUser.uid)
+       .update(itemData).then((value) {
+                      print("Data updated successfully.");
+                    }).catchError((onError){
+                      print(onError);
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+
+
+
 
 
   @override
@@ -212,6 +329,20 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 constraints: BoxConstraints.tightFor(width: 368,),
                 child: ElevatedButton(
                   child: Text('Check Seller Location'),
+                  onPressed: ()
+                  {
+                    MapsLauncher.launchCoordinates(widget.lat, widget.lng);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
+
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(width: 368,),
+                child: ElevatedButton(
+                  child: Text('more options'),
                   onPressed: ()
                   {
                     MapsLauncher.launchCoordinates(widget.lat, widget.lng);

@@ -22,130 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   QuerySnapshot items;
 
-  Future<bool> showDialogForUpdateData(selectedDoc, oldUserName, oldPhoneNumber,
-      oldItemPrice, oldItemName, oldItemColor, oldItemDescription) async{
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context){
-        return SingleChildScrollView(
-          child: AlertDialog(
-            title: Text("Update   Data", style: TextStyle(fontSize: 24, fontFamily: "Bebas", letterSpacing: 2.0),),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  initialValue: oldUserName,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Your Name',
-                  ),
-                  onChanged: (value){
-                    setState(() {
-                      oldUserName = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                TextFormField(
-                  initialValue: oldPhoneNumber,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Your Phone Number',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      oldPhoneNumber = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                TextFormField(
-                  initialValue: oldItemPrice,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Item Price',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      oldItemPrice = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                TextFormField(
-                  initialValue: oldItemName,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Item Name',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      oldItemName = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                TextFormField(
-                  initialValue: oldItemColor,
-                  decoration: InputDecoration(
-                    hintText: 'Enter Item Color',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      oldItemColor = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-                TextFormField(
-                  initialValue: oldItemDescription,
-                  decoration: InputDecoration(
-                    hintText: 'Write Item Description',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      oldItemDescription = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 5.0),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                  child: Text(
-                  "Cancel",
-                  ),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-              ),
-              ElevatedButton(
-                  child: Text(
-                    "Update Now",
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
 
-                    Map<String, dynamic> itemData = {
-                      'userName': oldUserName,
-                      'userNumber': oldPhoneNumber,
-                      'itemPrice': oldItemPrice,
-                      'itemModel': oldItemName,
-                      'itemColor': oldItemColor,
-                      'description': oldItemDescription,
-                    };
-
-                    FirebaseFirestore.instance.collection('items').doc(selectedDoc).update(itemData).then((value) {
-                      print("Data updated successfully.");
-                    }).catchError((onError){
-                      print(onError);
-                    });
-                  },
-              ),
-            ],
-          ),
-        );
-      }
-    );
-  }
 
   getMyData(){
     FirebaseFirestore.instance.collection('users').doc(userId).get().then((results) {
@@ -304,15 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                GestureDetector(
                  onTap: (){
                    if(items.docs[i].get('uId') == userId){
-                     showDialogForUpdateData(
-                       items.docs[i].id,
-                       items.docs[i].get('userName'),
-                       items.docs[i].get('userNumber'),
-                       items.docs[i].get('itemPrice'),
-                       items.docs[i].get('itemModel'),
-                       items.docs[i].get('itemColor'),
-                       items.docs[i].get('description'),
-                     );
+
                    }
                  },
                  child: Icon(Icons.edit_outlined,),
@@ -452,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
             onPressed: (){
-              
+
               _showMyDialogSignOut();
 
             },
