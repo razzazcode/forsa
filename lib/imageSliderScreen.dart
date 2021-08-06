@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_slider/image_slider.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ImageSliderScreen extends StatefulWidget {
 
   final String title, urlImage1, urlImage2, urlImage3, urlImage4, urlImage5;
-  final String itemColor, userNumber, description, address;
+  final String itemColor, userNumber, description, address ,itemid , sellerId;
   final double lat, lng;
 
 
@@ -32,6 +33,8 @@ class ImageSliderScreen extends StatefulWidget {
     this.address,
     this.lat,
     this.lng,
+    this.itemid,
+    this.sellerId,
   });
 
 
@@ -113,7 +116,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
 
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Write Item Description',
+                      hintText: 'Write Report Description',
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -135,21 +138,22 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 ),
                 ElevatedButton(
                   child: Text(
-                    "Update Now",
+                    "Report Now",
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                 //   Navigator.pop(context);
 
                     Map<String, dynamic> itemData = {
                       'reporterName': this.userName,
 
                       'itemModel': this.itemModel,
                       'reportdescription': this.reportDescription,
+                      'reporterId': FirebaseAuth.instance.currentUser.uid,
                     };
 
    FirebaseFirestore.instance.collection('items').doc(selectedDoc)
-        .collection('Reports').doc(currentUser.uid)
-       .update(itemData).then((value) {
+        .collection('Reports')
+       .add(itemData).then((value) {
                       print("Data updated successfully.");
                     }).catchError((onError){
                       print(onError);
@@ -345,7 +349,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                   child: Text('more options'),
                   onPressed: ()
                   {
-                    showDialogForUpdateData(selectedDoc);
+                    showDialogForUpdateData(widget.itemid);
                   },
                 ),
               ),

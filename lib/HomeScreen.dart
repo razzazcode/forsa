@@ -219,6 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
          urlImage3: items.docs[i].get('urlImage3'),
          urlImage4: items.docs[i].get('urlImage4'),
          urlImage5: items.docs[i].get('urlImage5'),
+         itemid:items.docs[i].id,
+         sellerId:items.docs[i].get('uId'),
        ));
        Navigator.pushReplacement(context, newRoute);
      },
