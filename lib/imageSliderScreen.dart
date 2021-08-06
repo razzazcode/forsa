@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 
 class ImageSliderScreen extends StatefulWidget {
@@ -77,7 +76,12 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
   }
 
 
-
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }}
 
   Future<bool> showDialogForUpdateData(selectedDoc) async{
     return showDialog(
@@ -305,7 +309,16 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                   ),
                   Row(
                     children: [
-                      Icon(Icons.phone_android),
+                      GestureDetector(
+                        child:  Icon(Icons.phone_android),
+
+                      onTap: ()
+                      {
+                        setState(() {
+                          _makePhoneCall('tel:'+widget.userNumber);
+                        });
+                      },
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Align(
@@ -348,7 +361,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 368,),
                 child: ElevatedButton(
-                  child: Text('more options'),
+                  child: Text('report product'),
                   onPressed: ()
                   {
                     showDialogForUpdateData(widget.itemid);
