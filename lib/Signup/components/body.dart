@@ -86,7 +86,7 @@ class _SignupBodyState extends State<SignupBody> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('AlertDialog Title'),
+          title: Text('Select Image Source'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -107,7 +107,7 @@ class _SignupBodyState extends State<SignupBody> {
               child: Text('Gallery'),
               onPressed: () {
 
-                Navigator.of(context).pop();
+
 
                 //  _imageFile =  ImagePicker.pickImage(source: ImageSource.gallery) as File;
                 galleryPickImage();
@@ -204,7 +204,7 @@ class _SignupBodyState extends State<SignupBody> {
       'userName': _nameController.text.trim(),
       'uId': userId,
       'password': _passwordController.text.trim(),
-
+      'email': _emailController.text.trim(),
       'userNumber': _phoneController.text.trim(),
       'imgPro': userPhotoUrl,
       'time': DateTime.now(),

@@ -22,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   QuerySnapshot items;
 
-  Future<bool> showDialogForUpdateData(selectedDoc, oldUserName, oldPhoneNumber, oldItemPrice, oldItemName, oldItemColor, oldItemDescription) async{
+  Future<bool> showDialogForUpdateData(selectedDoc, oldUserName, oldPhoneNumber,
+      oldItemPrice, oldItemName, oldItemColor, oldItemDescription) async{
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -200,6 +201,58 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+  Future<void> _showMyDialogSignOut() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logging Out ... ?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Please Confirm ...'),
+                Text('Would you like to Log Out of the App amd SignOut of Your account ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+
+  child: Text('Log Out '),
+  onPressed: () {
+    auth.signOut().then((_){
+      Route toWelcomeScreen = MaterialPageRoute(builder: (_) => WelcomeScreen());
+      Navigator.pushReplacement(context, toWelcomeScreen);
+    });
+    Navigator.of(context).pop();
+  },
+            ),
+            TextButton(
+              child: Text('Cancel...'),
+              onPressed: () {
+
+                Navigator.of(context).pop();
+
+              },
+
+
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,140 +269,140 @@ class _HomeScreenState extends State<HomeScreen> {
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: GestureDetector(
-                          onTap: (){
-                            Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: items.docs[i].get('uId'),));
-                            Navigator.pushReplacement(context, newRoute);
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(items.docs[i].get('imgPro'),),
-                                  fit: BoxFit.fill
-                              ),
-                            ),
-                          ),
-                        ),
-                        title: GestureDetector(
-                          onTap: (){
-                            Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: items.docs[i].get('uId'),));
-                            Navigator.pushReplacement(context, newRoute);
-                          },
-                            child: Text(items.docs[i].get('userName'))
-                        ),
-                        trailing: items.docs[i].get('uId') == userId ?
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                GestureDetector(
-                                  onTap: (){
-                                    if(items.docs[i].get('uId') == userId){
-                                      showDialogForUpdateData(
-                                        items.docs[i].id,
-                                        items.docs[i].get('userName'),
-                                        items.docs[i].get('userNumber'),
-                                        items.docs[i].get('itemPrice'),
-                                        items.docs[i].get('itemModel'),
-                                        items.docs[i].get('itemColor'),
-                                        items.docs[i].get('description'),
-                                      );
-                                    }
-                                  },
-                                  child: Icon(Icons.edit_outlined,),
-                                ),
-                                SizedBox(width: 20,),
-                                GestureDetector(
-                                  onDoubleTap: (){
-                                    if(items.docs[i].get('uId') == userId){
-                                      FirebaseFirestore.instance.collection('items').doc(items.docs[i].id).delete();
-                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
-                                    }
-                                  },
-                                  child: Icon(Icons.delete_forever_sharp)
-                                ),
-                              ],
-                            ):Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [],
-                            ),
-                      ),
-                    ),
+ children: [
+   Padding(
+     padding: const EdgeInsets.all(8.0),
+     child: ListTile(
+       leading: GestureDetector(
+         onTap: (){
+           Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: items.docs[i].get('uId'),));
+           Navigator.pushReplacement(context, newRoute);
+         },
+         child: Container(
+           width: 60,
+           height: 60,
+           decoration: BoxDecoration(
+             shape: BoxShape.circle,
+             image: DecorationImage(
+                 image: NetworkImage(items.docs[i].get('imgPro'),),
+                 fit: BoxFit.fill
+             ),
+           ),
+         ),
+       ),
+       title: GestureDetector(
+         onTap: (){
+           Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: items.docs[i].get('uId'),));
+           Navigator.pushReplacement(context, newRoute);
+         },
+           child: Text(items.docs[i].get('userName'))
+       ),
+       trailing: items.docs[i].get('uId') == userId ?
+           Row(
+             mainAxisSize: MainAxisSize.min,
+             children: [
+               GestureDetector(
+                 onTap: (){
+                   if(items.docs[i].get('uId') == userId){
+                     showDialogForUpdateData(
+                       items.docs[i].id,
+                       items.docs[i].get('userName'),
+                       items.docs[i].get('userNumber'),
+                       items.docs[i].get('itemPrice'),
+                       items.docs[i].get('itemModel'),
+                       items.docs[i].get('itemColor'),
+                       items.docs[i].get('description'),
+                     );
+                   }
+                 },
+                 child: Icon(Icons.edit_outlined,),
+               ),
+               SizedBox(width: 20,),
+               GestureDetector(
+                 onDoubleTap: (){
+                   if(items.docs[i].get('uId') == userId){
+                     FirebaseFirestore.instance.collection('items').doc(items.docs[i].id).delete();
+                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
+                   }
+                 },
+                 child: Icon(Icons.delete_forever_sharp)
+               ),
+             ],
+           ):Row(
+             mainAxisSize: MainAxisSize.min,
+             children: [],
+           ),
+     ),
+   ),
 
-                    GestureDetector(
-                      onDoubleTap: (){
-                        Route newRoute = MaterialPageRoute(builder: (_) => ImageSliderScreen(
-                          title: items.docs[i].get('itemModel'),
-                          itemColor: items.docs[i].get('itemColor'),
-                          userNumber:  items.docs[i].get('userNumber'),
-                          description: items.docs[i].get('description'),
-                          lat:  items.docs[i].get('lat'),
-                          lng: items.docs[i].get('lng'),
-                          address: items.docs[i].get('address'),
-                          urlImage1: items.docs[i].get('urlImage1'),
-                          urlImage2: items.docs[i].get('urlImage2'),
-                          urlImage3: items.docs[i].get('urlImage3'),
-                          urlImage4: items.docs[i].get('urlImage4'),
-                          urlImage5: items.docs[i].get('urlImage5'),
-                        ));
-                        Navigator.pushReplacement(context, newRoute);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Image.network(items.docs[i].get('urlImage1'), fit: BoxFit.fill,),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        '\$ '+items.docs[i].get('itemPrice'),
-                        style: TextStyle(
-                          fontFamily: "Bebas",
-                          letterSpacing: 2.0,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.image_sharp),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Align(
-                                  child: Text(items.docs[i].get('itemModel')),
-                                  alignment: Alignment.topLeft,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(Icons.watch_later_outlined),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Align(
-                                  child: Text(tAgo.format((items.docs[i].get('time')).toDate())),
-                                  alignment: Alignment.topLeft,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10.0,),
-                  ],
+   GestureDetector(
+     onDoubleTap: (){
+       Route newRoute = MaterialPageRoute(builder: (_) => ImageSliderScreen(
+         title: items.docs[i].get('itemModel'),
+         itemColor: items.docs[i].get('itemColor'),
+         userNumber:  items.docs[i].get('userNumber'),
+         description: items.docs[i].get('description'),
+         lat:  items.docs[i].get('lat'),
+         lng: items.docs[i].get('lng'),
+         address: items.docs[i].get('address'),
+         urlImage1: items.docs[i].get('urlImage1'),
+         urlImage2: items.docs[i].get('urlImage2'),
+         urlImage3: items.docs[i].get('urlImage3'),
+         urlImage4: items.docs[i].get('urlImage4'),
+         urlImage5: items.docs[i].get('urlImage5'),
+       ));
+       Navigator.pushReplacement(context, newRoute);
+     },
+     child: Padding(
+       padding: const EdgeInsets.all(16.0),
+       child: Image.network(items.docs[i].get('urlImage1'), fit: BoxFit.fill,),
+     ),
+   ),
+   Padding(
+     padding: const EdgeInsets.only(left: 10.0),
+     child: Text(
+       '\$ '+items.docs[i].get('itemPrice'),
+       style: TextStyle(
+         fontFamily: "Bebas",
+         letterSpacing: 2.0,
+         fontSize: 24,
+       ),
+     ),
+   ),
+   Padding(
+       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+       children: [
+         Row(
+           children: [
+             Icon(Icons.image_sharp),
+             Padding(
+               padding: const EdgeInsets.only(left: 10.0),
+               child: Align(
+                 child: Text(items.docs[i].get('itemModel')),
+                 alignment: Alignment.topLeft,
+               ),
+             ),
+           ],
+         ),
+         Row(
+           children: [
+             Icon(Icons.watch_later_outlined),
+             Padding(
+               padding: const EdgeInsets.only(left: 10.0),
+               child: Align(
+                 child: Text(tAgo.format((items.docs[i].get('time')).toDate())),
+                 alignment: Alignment.topLeft,
+               ),
+             ),
+           ],
+         ),
+       ],
+     ),
+   ),
+   SizedBox(height: 10.0,),
+ ],
                 ),
               );
             },
@@ -394,11 +447,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           TextButton(
+
+
+
+
             onPressed: (){
-              auth.signOut().then((_){
-                Route newRoute = MaterialPageRoute(builder: (_) => WelcomeScreen());
-                Navigator.pushReplacement(context, newRoute);
-              });
+              
+              _showMyDialogSignOut();
+
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
