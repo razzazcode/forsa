@@ -345,7 +345,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                   child: Text('more options'),
                   onPressed: ()
                   {
-                    MapsLauncher.launchCoordinates(widget.lat, widget.lng);
+                    showDialogForUpdateData(selectedDoc);
                   },
                 ),
               ),
