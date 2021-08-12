@@ -294,19 +294,9 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         actions: <Widget>[
-          TextButton(
-              onPressed: (){
-                Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: userId));
-                print(userId);
-                print("  this is id  ");
-                print(userId);
-                Navigator.pushReplacement(context, newRoute);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Icon(Icons.person, color: Colors.white),
-              ),
-          ),
+
+
+
           TextButton(
             onPressed: (){
               Route newRoute = MaterialPageRoute(builder: (_) => SearchProduct());
@@ -317,6 +307,30 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.search, color: Colors.white),
             ),
           ),
+
+
+
+       TextButton(
+              onPressed: (){
+                Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+            Navigator.pushReplacement(context, newRoute);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(Icons.refresh, color: Colors.white),
+              ),
+          ),
+    /*     TextButton(
+              onPressed: (){
+                Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: userId));
+                Navigator.pushReplacement(context, newRoute);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(Icons.person, color: Colors.white),
+              ),
+          ),
+
           TextButton(
 
 
@@ -331,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(10.0),
               child: Icon(Icons.login_outlined, color: Colors.white),
             ),
-          ),
+          ),*/
         ],
         flexibleSpace: Container(
           decoration: new BoxDecoration(
@@ -347,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        title: Text("Home Page"),
+        title: Text(getUserName),
         centerTitle: false,
       ),
       body: Center(

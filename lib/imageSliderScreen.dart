@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'HomeScreen.dart';
+
 
 class ImageSliderScreen extends StatefulWidget {
 
@@ -182,6 +184,16 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: (){
+            Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+            Navigator.pushReplacement(context, newRoute);
+          },
+        ),
+
+
         title: Text(widget.title, style: TextStyle(fontFamily: "Varela", letterSpacing: 2.0),),
         centerTitle: true,
       ),
