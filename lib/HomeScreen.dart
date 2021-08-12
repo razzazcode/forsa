@@ -11,6 +11,8 @@ import 'package:forsa/uploadAdScreen.dart';
 import 'Welcome/welcome_screen.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
+import 'Widgets/myDrawer.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -75,50 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     getMyData();
 
-  }
-
-
-  Future<void> _showMyDialogSignOut() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Logging Out ... ?'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Please Confirm ...'),
-                Text('Would you like to Log Out of the App amd SignOut of Your account ?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-
-  child: Text('Log Out '),
-  onPressed: () {
-    auth.signOut().then((_){
-      Route toWelcomeScreen = MaterialPageRoute(builder: (_) => WelcomeScreen());
-      Navigator.pushReplacement(context, toWelcomeScreen);
-    });
-    Navigator.of(context).pop();
-  },
-            ),
-            TextButton(
-              child: Text('Cancel...'),
-              onPressed: () {
-
-                Navigator.of(context).pop();
-
-              },
-
-
-            ),
-          ],
-        );
-      },
-    );
   }
 
 
@@ -286,13 +244,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        /*   leading: MyDrawer(),
+             IconButton(
           icon: Icon(Icons.refresh, color: Colors.white),
           onPressed: (){
             Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
             Navigator.pushReplacement(context, newRoute);
           },
         ),
+
+
+        */
         actions: <Widget>[
 
 
@@ -364,6 +326,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(getUserName),
         centerTitle: false,
       ),
+
+      drawer: MyDrawer(),
+
+
+
       body: Center(
         child: Container(
           width: _screenWidth,
