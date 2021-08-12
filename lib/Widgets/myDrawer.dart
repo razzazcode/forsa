@@ -144,7 +144,10 @@ child: Column (
         width: 160.0,
         child: CircleAvatar (
 
+          backgroundImage: NetworkImage(
 
+              userImageUrl
+          ),
 
         ),
       ),
