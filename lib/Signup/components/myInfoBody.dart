@@ -18,12 +18,17 @@ import 'package:forsa/globalVar.dart';
 import '../../HomeScreen.dart';
 
 
-class SignupBody extends StatefulWidget {
+class myInfoBody extends StatefulWidget {
+
+
+  String sellerId;
+  myInfoBody({this.sellerId});
+
   @override
-  _SignupBodyState createState() => _SignupBodyState();
+  _myInfoBodyState createState() => _myInfoBodyState();
 }
 
-class _SignupBodyState extends State<SignupBody> {
+class _myInfoBodyState extends State<myInfoBody> {
 
   String userPhotoUrl = "";
 
@@ -46,7 +51,7 @@ class _SignupBodyState extends State<SignupBody> {
   Future<void> captureAndPickImage() async {
     //  _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-  final  imageofCamera =  await ImagePicker().pickImage(
+    final  imageofCamera =  await ImagePicker().pickImage(
         source: ImageSource.camera
     );
 
@@ -63,7 +68,7 @@ class _SignupBodyState extends State<SignupBody> {
   Future<void> galleryPickImage() async {
     //  _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-   final pickedimageGallery =  await ImagePicker().pickImage(
+    final pickedimageGallery =  await ImagePicker().pickImage(
         source: ImageSource.gallery
     );
 
@@ -71,9 +76,9 @@ class _SignupBodyState extends State<SignupBody> {
     pickedimagewithpath = File( pickedimageGallery.path);
 
 
-   setState(() {
-     _image = pickedimagewithpath;
-   });
+    setState(() {
+      _image = pickedimagewithpath;
+    });
 
 
   }
@@ -154,7 +159,7 @@ class _SignupBodyState extends State<SignupBody> {
         .toString();
 
     firebaseStorage.Reference reference =
-        firebaseStorage.FirebaseStorage.instance.ref().child(fileName);
+    firebaseStorage.FirebaseStorage.instance.ref().child(fileName);
     firebaseStorage.UploadTask uploadTask = reference.putFile(_image);
     firebaseStorage.TaskSnapshot storageTaskSnapshot = await uploadTask.whenComplete(() {
 
@@ -218,7 +223,7 @@ class _SignupBodyState extends State<SignupBody> {
   Widget build(BuildContext context) {
 
     double _screenWidth = MediaQuery.of(context).size.width,
-    _screenHeight = MediaQuery.of(context).size.height;
+        _screenHeight = MediaQuery.of(context).size.height;
 
 
     return SignupBackground(
@@ -227,21 +232,21 @@ class _SignupBodyState extends State<SignupBody> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             InkWell(
-              onTap: (){
-                _showMyDialog();
-              },
-              child: CircleAvatar(
-                radius: _screenWidth * 0.20,
-                backgroundColor: Colors.deepPurple[100],
-                backgroundImage: _image==null?null:FileImage(_image),
-                child: _image == null
-                ? Icon(
-                  Icons.add_photo_alternate,
-                  size: _screenWidth * 0.20,
-                  color: Colors.white,
-                )
-                    : null,
-              )),
+                onTap: (){
+                  _showMyDialog();
+                },
+                child: CircleAvatar(
+                  radius: _screenWidth * 0.20,
+                  backgroundColor: Colors.deepPurple[100],
+                  backgroundImage: _image==null?null:FileImage(_image),
+                  child: _image == null
+                      ? Icon(
+                    Icons.add_photo_alternate,
+                    size: _screenWidth * 0.20,
+                    color: Colors.white,
+                  )
+                      : null,
+                )),
             SizedBox(height: _screenHeight * 0.01),
             RoundedInputField(
               hintText: "Name",

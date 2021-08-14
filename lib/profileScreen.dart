@@ -170,7 +170,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   getResults(){
-    FirebaseFirestore.instance.collection('items').where("uId", isEqualTo: widget.sellerId).where("status", isEqualTo: "approved")
+    FirebaseFirestore.instance.collection('items')
+        .where("uId", isEqualTo: widget.sellerId)
+        .where("status", isEqualTo: "approved")
         .get().then((results){
           setState(() {
             items = results;
