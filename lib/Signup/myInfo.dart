@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:forsa/Signup/components/body.dart';
 import 'package:forsa/Signup/components/myInfoBody.dart';
 
 class myInfo extends StatelessWidget {

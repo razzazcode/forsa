@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:forsa/Signup/components/myInfo.dart';
+import 'package:forsa/Signup/myInfo.dart';
 import 'package:forsa/Signup/components/myInfoBody.dart';
+import 'package:forsa/Signup/signup_screen.dart';
 import 'package:forsa/Welcome/welcome_screen.dart';
 import 'package:forsa/globalVar.dart';
 import 'package:forsa/profileScreen.dart';
@@ -191,7 +192,7 @@ SizedBox(height: 10.0,),
 
                   onTap: () {
 
-                    Route route = MaterialPageRoute(builder: (c) => myInfoBody(sellerId: userId));
+                    Route route = MaterialPageRoute(builder: (c) => myInfo());
 
                     Navigator.pushReplacement(context, route);
                   },

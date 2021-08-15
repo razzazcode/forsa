@@ -19,6 +19,10 @@ import '../../HomeScreen.dart';
 
 
 class SignupBody extends StatefulWidget {
+
+
+
+
   @override
   _SignupBodyState createState() => _SignupBodyState();
 }
@@ -126,21 +130,6 @@ class _SignupBodyState extends State<SignupBody> {
 
 
 
-
-
-
-
-
-
-  chooseImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    File file = File(pickedFile.path);
-
-    setState(() {
-      _image = file;
-    });
-  }
-
   upload() async{
     showDialog(
         context: context,
@@ -209,7 +198,8 @@ class _SignupBodyState extends State<SignupBody> {
       'status': "approved",
     };
 
-    FirebaseFirestore.instance.collection('users').doc(userId).set(userData);
+    FirebaseFirestore.instance.collection('users').doc(userId)
+        .set(userData);
 
   }
 

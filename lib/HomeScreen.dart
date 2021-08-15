@@ -27,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   getMyData(){
-    FirebaseFirestore.instance.collection('users').doc(userId).get().then((results) {
+    FirebaseFirestore.instance.collection('users').doc(userId)
+        .get().then((results) {
       setState(() {
         userImageUrl = results.data()['imgPro'];
         getUserName = results.data()['userName'];

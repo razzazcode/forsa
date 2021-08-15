@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:forsa/Signup/components/infoBackground.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:forsa/DialogBox/errorDialog.dart';
 import 'package:forsa/DialogBox/loadingDialog.dart';
 import 'package:forsa/Login/login_screen.dart';
-import 'package:forsa/Signup/components/background.dart';
 import 'package:forsa/Widgets/already_have_an_account_acheck.dart';
 import 'package:forsa/Widgets/rounded_button.dart';
 import 'package:forsa/Widgets/rounded_input_field.dart';
@@ -21,8 +21,7 @@ import '../../HomeScreen.dart';
 class myInfoBody extends StatefulWidget {
 
 
-  String sellerId;
-  myInfoBody({this.sellerId});
+
 
   @override
   _myInfoBodyState createState() => _myInfoBodyState();
@@ -47,6 +46,29 @@ class _myInfoBodyState extends State<myInfoBody> {
 
   PickedFile imageofCamera , pickedimageGallery;
   File pickedimagewithpath ,  image2gallery;
+
+
+
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  QuerySnapshot items;
+
+
+
+  getMyData(){
+    FirebaseFirestore.instance.collection('users')
+        .doc(userId).get().then((results) {
+      setState(() {
+        userImageUrl = results.data()['imgPro'];
+        getUserName = results.data()['userName'];
+      });
+    });
+  }
+
+
+
+
 
   Future<void> captureAndPickImage() async {
     //  _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -129,23 +151,6 @@ class _myInfoBodyState extends State<myInfoBody> {
 
 
 
-
-
-
-
-
-
-
-
-  chooseImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    File file = File(pickedFile.path);
-
-    setState(() {
-      _image = file;
-    });
-  }
-
   upload() async{
     showDialog(
         context: context,
@@ -218,6 +223,34 @@ class _myInfoBodyState extends State<myInfoBody> {
 
   }
 
+/*
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //   getUserAddress();
+
+    userId = FirebaseAuth.instance.currentUser.uid;
+    userEmail = FirebaseAuth.instance.currentUser.email;
+
+    FirebaseFirestore.instance.collection('items')
+        .where("status", isEqualTo: "approved")
+        .orderBy("time", descending: true)
+        .get().then((results) {
+      setState(() {
+        items = results;
+      });
+    });
+
+
+
+  }
+
+
+
+*/
+
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +259,7 @@ class _myInfoBodyState extends State<myInfoBody> {
         _screenHeight = MediaQuery.of(context).size.height;
 
 
-    return SignupBackground(
+    return infoBackground(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -239,17 +272,21 @@ class _myInfoBodyState extends State<myInfoBody> {
                   radius: _screenWidth * 0.20,
                   backgroundColor: Colors.deepPurple[100],
                   backgroundImage: _image==null?null:FileImage(_image),
-                  child: _image == null
-                      ? Icon(
+                  child: _image == null ?
+
+                  Icon(
                     Icons.add_photo_alternate,
                     size: _screenWidth * 0.20,
                     color: Colors.white,
                   )
+
                       : null,
-                )),
+                )
+
+            ),
             SizedBox(height: _screenHeight * 0.01),
             RoundedInputField(
-              hintText: "Name",
+              hintText: getUserName,
               icon: Icons.person,
               onChanged: (value)
               {
