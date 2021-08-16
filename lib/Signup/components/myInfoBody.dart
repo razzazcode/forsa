@@ -271,8 +271,11 @@ class _myInfoBodyState extends State<myInfoBody> {
                 child: CircleAvatar(
                   radius: _screenWidth * 0.20,
                   backgroundColor: Colors.deepPurple[100],
-                  backgroundImage: _image==null?null:FileImage(_image),
+                  backgroundImage:
+                   _image==null?null:FileImage(_image),
                   child: _image == null ?
+
+
 
                   Icon(
                     Icons.add_photo_alternate,
