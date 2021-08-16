@@ -175,11 +175,13 @@ class _myInfoBodyState extends State<myInfoBody> {
 
     await storageTaskSnapshot.ref.getDownloadURL().then((url){
       userPhotoUrl = url;
-      _register();
+      saveUserData();
     });
 
   }
 
+
+  /*
   void _register() async{
     User currentUser;
 
@@ -212,6 +214,8 @@ class _myInfoBodyState extends State<myInfoBody> {
 
   }
 
+
+   */
   void saveUserData(){
     Map<String, dynamic> userData = {
       'userName': _nameController.text.trim(),
@@ -225,7 +229,8 @@ class _myInfoBodyState extends State<myInfoBody> {
     };
 
     FirebaseFirestore.instance.collection('users').doc(userId).set(userData);
-
+    Route newRoute = MaterialPageRoute(builder: (context) => HomeScreen());
+    Navigator.pushReplacement(context, newRoute);
   }
 
 /*
