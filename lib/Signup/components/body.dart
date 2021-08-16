@@ -224,8 +224,7 @@ class _SignupBodyState extends State<SignupBody> {
                 radius: _screenWidth * 0.20,
                 backgroundColor: Colors.deepPurple[100],
                 backgroundImage: _image==null?null:FileImage(_image),
-                child: _image == null
-                ? Icon(
+                child: _image == null ? Icon(
                   Icons.add_photo_alternate,
                   size: _screenWidth * 0.20,
                   color: Colors.white,

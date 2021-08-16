@@ -62,6 +62,9 @@ class _myInfoBodyState extends State<myInfoBody> {
       setState(() {
         userImageUrl = results.data()['imgPro'];
         getUserName = results.data()['userName'];
+        getUseremail = results.data()['email'];
+        getUserNumber = results.data()['userNumber'];
+
       });
     });
   }
@@ -188,6 +191,8 @@ class _myInfoBodyState extends State<myInfoBody> {
       userId = currentUser.uid;
       userEmail = currentUser.email;
       getUserName = _nameController.text.trim();
+       getUseremail = _emailController.text.trim();
+       getUserNumber =  _phoneController.text.trim();
 
       saveUserData();
 
@@ -271,8 +276,13 @@ class _myInfoBodyState extends State<myInfoBody> {
                 child: CircleAvatar(
                   radius: _screenWidth * 0.20,
                   backgroundColor: Colors.deepPurple[100],
-                  backgroundImage:
-                   _image==null?null:FileImage(_image),
+                  backgroundImage:   NetworkImage(
+
+                      userImageUrl )
+                  ,
+
+
+
                   child: _image == null ?
 
 
@@ -297,7 +307,7 @@ class _myInfoBodyState extends State<myInfoBody> {
               },
             ),
             RoundedInputField(
-              hintText: "Email",
+              hintText: getUseremail,
               icon: Icons.person,
               onChanged: (value)
               {
@@ -311,7 +321,7 @@ class _myInfoBodyState extends State<myInfoBody> {
               },
             ),
             RoundedInputField(
-              hintText: "Phone",
+              hintText: getUserNumber,
               icon: Icons.phone,
               onChanged: (value)
               {
@@ -319,7 +329,7 @@ class _myInfoBodyState extends State<myInfoBody> {
               },
             ),
             RoundedButton(
-              text: "SIGNUP",
+              text: "Update Info",
               press: ()
               {
                 upload();

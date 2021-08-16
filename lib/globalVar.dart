@@ -7,6 +7,15 @@ String userEmail = "";
 String userImageUrl = "";
 String getUserName = "";
 
+
+
+String getUseremail = "";
+String getUserNumber = "";
+
+
+
+
+
 String adUserName = "";
 String adUserImageUrl = "";
 
