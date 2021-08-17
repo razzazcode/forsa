@@ -56,7 +56,7 @@ class _myInfoBodyState extends State<myInfoBody> {
 
 
 
-  getMyData(){
+ /* getMyData(){
     FirebaseFirestore.instance.collection('users')
         .doc(userId).get().then((results) {
       setState(() {
@@ -64,12 +64,18 @@ class _myInfoBodyState extends State<myInfoBody> {
         getUserName = results.data()['userName'];
         getUseremail = results.data()['email'];
         getUserNumber = results.data()['userNumber'];
+        _nameController.text = getUserName ;
+
+        _emailController.text = getUseremail;
+
+            _passwordController.text = getUserPassword;
+            _phoneController.text = getUserNumber;
 
       });
     });
   }
 
-
+*/
 
 
 
@@ -303,12 +309,15 @@ class _myInfoBodyState extends State<myInfoBody> {
 
             ),
             SizedBox(height: _screenHeight * 0.01),
-            RoundedInputField(
+
+
+                RoundedInputField(
               hintText: getUserName,
               icon: Icons.person,
               onChanged: (value)
               {
-                _nameController.text = value;
+
+              _nameController.text = value;
               },
             ),
             RoundedInputField(

@@ -23,6 +23,7 @@ class RoundedPasswordField extends StatelessWidget {
             color: Colors.deepPurple,
           ),
           suffixIcon: Icon(
+
             Icons.visibility,
             color: Colors.deepPurple,
           ),

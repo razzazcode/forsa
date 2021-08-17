@@ -36,6 +36,9 @@ class _MyDrawer extends State<MyDrawer> {
       setState(() {
         userImageUrl = results.data()['imgPro'];
         getUserName = results.data()['userName'];
+
+        getUserNumber = results.data()['userNumber'];
+
       });
     });
   }
