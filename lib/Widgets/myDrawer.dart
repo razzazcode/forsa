@@ -39,6 +39,8 @@ class _MyDrawer extends State<MyDrawer> {
 
         getUserNumber = results.data()['userNumber'];
 
+        getUseremail = results.data()['email'];
+
       });
     });
   }
@@ -79,7 +81,7 @@ class _MyDrawer extends State<MyDrawer> {
             child: ListBody(
               children: <Widget>[
                 Text('Please Confirm ...'),
-                Text('Would you like to Log Out of the App amd SignOut of Your account ?'),
+                Text('Would you like to SignOut of Your account  and close the App?'),
               ],
             ),
           ),
@@ -89,6 +91,14 @@ class _MyDrawer extends State<MyDrawer> {
               child: Text('Log Out '),
               onPressed: () {
                 auth.signOut().then((_){
+
+
+                   getUseremail = "please enter your email address here";
+                   getUserNumber = "please enter your phone number here like +1 0123456789";
+
+
+
+
                   Route toWelcomeScreen = MaterialPageRoute(builder: (_) => WelcomeScreen());
                   Navigator.pushReplacement(context, toWelcomeScreen);
                 });

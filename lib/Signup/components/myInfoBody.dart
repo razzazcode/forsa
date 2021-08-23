@@ -159,69 +159,71 @@ class _myInfoBodyState extends State<myInfoBody> {
   }
 
 
+  checkFields () async
+  {
+
+    if(_emailController.text.isEmpty) {_emailController.text = getUseremail;
+
+    }
+    ;
+
+    if(_nameController.text.isEmpty) {_nameController.text = getUserName;
+
+    }
+    ;
+    if(_passwordController.text.isEmpty) {_passwordController.text = getUserPassword;
+
+    }
+    ;
+    if(_phoneController.text.isEmpty) {_phoneController.text = getUserNumber;
+
+    }
+    ;
+
+
+
+
+
+
+         upload();
+
+
+  }
+
 
   upload() async{
+
+    print("object");
     showDialog(
         context: context,
         builder: (_){
           return LoadingAlertDialog();
         });
+   if (_image == null)  { userPhotoUrl = userImageUrl;
+   saveUserData();}
+   else{
+     String fileName = DateTime
+         .now()
+         .millisecondsSinceEpoch
+         .toString();
 
-    String fileName = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+     firebaseStorage.Reference reference =
+     firebaseStorage.FirebaseStorage.instance.ref().child(fileName);
+     firebaseStorage.UploadTask uploadTask = reference.putFile(_image);
+     firebaseStorage.TaskSnapshot storageTaskSnapshot = await uploadTask.whenComplete(() {
 
-    firebaseStorage.Reference reference =
-    firebaseStorage.FirebaseStorage.instance.ref().child(fileName);
-    firebaseStorage.UploadTask uploadTask = reference.putFile(_image);
-    firebaseStorage.TaskSnapshot storageTaskSnapshot = await uploadTask.whenComplete(() {
+     });
 
-    });
+     await storageTaskSnapshot.ref.getDownloadURL().then((url){
+       userPhotoUrl = url;
+       saveUserData();
+     });
+   }
 
-    await storageTaskSnapshot.ref.getDownloadURL().then((url){
-      userPhotoUrl = url;
-      saveUserData();
-    });
 
   }
 
 
-  /*
-  void _register() async{
-    User currentUser;
-
-    await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim()
-    ).then((auth){
-      currentUser = auth.user;
-      userId = currentUser.uid;
-      userEmail = currentUser.email;
-      getUserName = _nameController.text.trim();
-       getUseremail = _emailController.text.trim();
-       getUserNumber =  _phoneController.text.trim();
-
-      saveUserData();
-
-    }).catchError((error){
-      Navigator.pop(context);
-      showDialog(context: context, builder: (con){
-        return ErrorAlertDialog(
-          message: error.message.toString(),
-        );
-      });
-    });
-
-    if(currentUser != null){
-      Route newRoute = MaterialPageRoute(builder: (context) => HomeScreen());
-      Navigator.pushReplacement(context, newRoute);
-    }
-
-  }
-
-
-   */
   void saveUserData(){
     Map<String, dynamic> userData = {
       'userName': _nameController.text.trim(),
@@ -346,7 +348,7 @@ class _myInfoBodyState extends State<myInfoBody> {
               text: "Update Info",
               press: ()
               {
-                upload();
+                checkFields();
               },
             ),
             SizedBox(height: _screenHeight * 0.03,),

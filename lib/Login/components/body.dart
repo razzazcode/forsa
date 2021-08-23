@@ -113,7 +113,7 @@ class _LoginBodyState extends State<LoginBody> {
             RoundedButton(
               text: "LOGIN",
               press: (){
-                _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty
+         _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty
                     ? _login()
                     : showDialog(
                     context: context,

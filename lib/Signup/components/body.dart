@@ -127,7 +127,27 @@ class _SignupBodyState extends State<SignupBody> {
   }
 
 
+  checkFields () async
+  {
 
+    _emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _phoneController.text.isNotEmpty &&
+        _nameController.text.isNotEmpty &&
+        _image != null
+
+
+        ? upload()
+        : showDialog(
+        context: context,
+        builder: (con){
+          return ErrorAlertDialog(
+            message: 'Please Fill all fields for signing up',
+          );
+        });
+
+
+  }
 
 
   upload() async{
@@ -241,7 +261,7 @@ class _SignupBodyState extends State<SignupBody> {
               },
             ),
             RoundedInputField(
-              hintText: "Email",
+              hintText: getUseremail,
               icon: Icons.person,
               onChanged: (value)
               {
@@ -255,7 +275,7 @@ class _SignupBodyState extends State<SignupBody> {
               },
             ),
             RoundedInputField(
-              hintText: "Phone",
+              hintText: getUserNumber,
               icon: Icons.phone,
               onChanged: (value)
               {
@@ -266,7 +286,9 @@ class _SignupBodyState extends State<SignupBody> {
               text: "SIGNUP",
               press: ()
               {
-                upload();
+
+   checkFields();
+
               },
             ),
             SizedBox(height: _screenHeight * 0.03,),
