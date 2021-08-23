@@ -12,7 +12,7 @@ class ErrorAlertDialog extends StatelessWidget {
       actions: <Widget>[
         ElevatedButton(
             onPressed: (){
-              Navigator.pop(context);
+              Navigator.of(context).pop();
 
             },
             child: Center(

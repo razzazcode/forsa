@@ -93,11 +93,6 @@ class _MyDrawer extends State<MyDrawer> {
                 auth.signOut().then((_){
 
 
-                   getUseremail = "please enter your email address here";
-                   getUserNumber = "please enter your phone number here like +1 0123456789";
-
-
-
 
                   Route toWelcomeScreen = MaterialPageRoute(builder: (_) => WelcomeScreen());
                   Navigator.pushReplacement(context, toWelcomeScreen);

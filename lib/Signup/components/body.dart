@@ -261,7 +261,7 @@ class _SignupBodyState extends State<SignupBody> {
               },
             ),
             RoundedInputField(
-              hintText: getUseremail,
+              hintText: "please enter your email address here",
               icon: Icons.person,
               onChanged: (value)
               {
@@ -275,7 +275,7 @@ class _SignupBodyState extends State<SignupBody> {
               },
             ),
             RoundedInputField(
-              hintText: getUserNumber,
+              hintText: "please enter your phone number here like +1 0123456789",
               icon: Icons.phone,
               onChanged: (value)
               {
