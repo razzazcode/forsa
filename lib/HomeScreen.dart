@@ -37,11 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getUserAddress() async{
-    Position newPostiton = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position newPostiton = await Geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     position = newPostiton;
 
-    placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    placemarks = await placemarkFromCoordinates
+
+            (position.latitude, position.longitude);
 
     Placemark placemark = placemarks[0];
 
