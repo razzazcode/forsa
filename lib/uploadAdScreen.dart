@@ -33,6 +33,9 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String userName="";
   String userNumber="";
+  String itemCategory="";
+
+
   String itemPrice="";
   String itemModel="";
   String itemColor="";
@@ -80,7 +83,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(hintText: 'Enter Your Name'),
+                decoration: InputDecoration(hintText: 'Item Category'),
                 onChanged: (value) {
                   this.userName = value;
                 },
@@ -97,6 +100,14 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                 decoration: InputDecoration(hintText: 'Enter Item Price'),
                 onChanged: (value) {
                   this.itemPrice = value;
+                },
+              ),
+
+              SizedBox(height: 5.0),
+              TextField(
+                decoration: InputDecoration(hintText: 'Enter Item Price'),
+                onChanged: (value) {
+                  this.itemCategory = value;
                 },
               ),
               SizedBox(height: 5.0),
@@ -134,6 +145,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                     uploadFile().whenComplete((){
                       Map<String, dynamic> adData ={
                         'userName' : this.userName,
+                        'itemCategory' : this.itemCategory,
+
                         'uId' : auth.currentUser.uid,
                         'userNumber': this.userNumber,
                         'itemPrice': this.itemPrice,
