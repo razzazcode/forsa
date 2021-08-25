@@ -144,7 +144,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
 
                     uploadFile().whenComplete((){
                       Map<String, dynamic> adData ={
-                        'userName' : this.userName,
+                        'userName' : getUserName,
                         'itemCategory' : this.itemCategory,
 
                         'uId' : auth.currentUser.uid,
@@ -272,7 +272,10 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
       setState(() {
         val = i / _image.length;
       });
-      ref = firebase_storage.FirebaseStorage.instance.ref().child('image/${Path.basename(img.path)}');
+      ref = firebase_storage.FirebaseStorage.instance.ref()
+          .child('productImages')
+          .child(itemCategory).child(getUserName)
+          .child(Path.basename(img.path));
 
       await ref.putFile(img).whenComplete(() async{
         await ref.getDownloadURL().then((value){
