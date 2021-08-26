@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:forsa/Widgets/Language.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:forsa/SearchProduct.dart';
@@ -8,7 +9,6 @@ import 'package:forsa/globalVar.dart';
 import 'package:forsa/imageSliderScreen.dart';
 import 'package:forsa/profileScreen.dart';
 import 'package:forsa/uploadAdScreen.dart';
-import 'Welcome/welcome_screen.dart';
 import 'package:timeago/timeago.dart' as tAgo;
 
 import 'Widgets/myDrawer.dart';
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userId = FirebaseAuth.instance.currentUser.uid;
     userEmail = FirebaseAuth.instance.currentUser.email;
 
-    FirebaseFirestore.instance.collection('items')
+    FirebaseFirestore.instance.collection(itemsCtegory)
     .where("status", isEqualTo: "approved")
     .orderBy("time", descending: true)
     .get().then((results) {
@@ -286,6 +286,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Icon(Icons.refresh, color: Colors.white),
               ),
           ),
+
+
+          DropdownButton(
+            underline: SizedBox(),
+            icon: Icon(
+              Icons.language,
+              color: Colors.white,
+            ),
+            items: getLanguages.map((Language lang) {
+              return new DropdownMenuItem<String>(
+                value: lang.languageCode,
+                child: new Text(lang.name),
+              );
+            }).toList(),
+
+            onChanged: (val) {
+              itemsCtegory = val;
+
+
+              Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+              Navigator.pushReplacement(context, newRoute);
+              print(val);
+            },
+          ),
+
+
+
+
+
+
+
+
+
+
     /*     TextButton(
               onPressed: (){
                 Route newRoute = MaterialPageRoute(builder: (_) => ProfileScreen(sellerId: userId));

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:forsa/Signup/components/infoBackground.dart';
+import 'package:forsa/Widgets/Language.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:forsa/DialogBox/errorDialog.dart';
 import 'package:forsa/DialogBox/loadingDialog.dart';
@@ -339,6 +340,11 @@ class _myInfoBodyState extends State<myInfoBody> {
                 _passwordController.text = value;
               },
             ),
+
+
+
+
+
             RoundedInputField(
               hintText: getUserNumber,
               icon: Icons.phone,
