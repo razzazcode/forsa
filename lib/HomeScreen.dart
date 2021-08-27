@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:forsa/Widgets/Language.dart';
+import 'package:forsa/Widgets/SubCategory.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:forsa/SearchProduct.dart';
@@ -70,7 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
     userId = FirebaseAuth.instance.currentUser.uid;
     userEmail = FirebaseAuth.instance.currentUser.email;
 
-    FirebaseFirestore.instance.collection(itemsCtegory)
+    FirebaseFirestore.instance.collection('items')
+        .doc(itemsCtegory)
+        .collection(itemsSubCategory)
     .where("status", isEqualTo: "approved")
     .orderBy("time", descending: true)
     .get().then((results) {
@@ -82,14 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
     getMyData();
 
   }
-
-
-
-
-
-
-
-
 
 
 
@@ -152,7 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                GestureDetector(
                  onDoubleTap: (){
                    if(items.docs[i].get('uId') == userId){
-                     FirebaseFirestore.instance.collection('items').doc(items.docs[i].id).delete();
+                     FirebaseFirestore.instance.collection('items')
+                         .doc(itemsCtegory)
+                         .collection(itemsSubCategory).doc(items.docs[i].id).delete();
                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
                    }
                  },
@@ -311,7 +308,27 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 
+          DropdownButton(
+            underline: SizedBox(),
+            icon: Icon(
+              Icons.arrow_drop_down_circle_rounded,
+              color: Colors.white,
+            ),
+            items: getSubCategory.map((SubCategory subcat) {
+              return new DropdownMenuItem<String>(
+                value: subcat.SubCategoryCode,
+                child: new Text(subcat.name),
+              );
+            }).toList(),
 
+            onChanged: (val) {
+              itemsSubCategory = val;
+
+              print(val);
+            },
+
+
+          ),
 
 
 

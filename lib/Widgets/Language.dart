@@ -10,6 +10,6 @@ class Language {
 
 const List<Language> getLanguages = <Language>[
   Language(1, 'English', 'en'),
-  Language(2, "items", 'items'),
+  Language(2, "elecs", 'electronics'),
   Language(3, 'پشتو', 'ps'),
 ];

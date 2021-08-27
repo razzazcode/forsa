@@ -12,6 +12,7 @@ import 'package:toast/toast.dart';
 import 'package:path/path.dart' as Path;
 
 import 'HomeScreen.dart';
+import 'Widgets/SubCategory.dart';
 
 class UploadAdScreen extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String userName="";
   String userNumber="";
-  String itemCategory="";
+  //String itemCategory="";
 
 
   String itemPrice="";
@@ -51,56 +52,59 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
           next ? "Please write Items's Info" : 'Choose Item Images',
           style: TextStyle(fontSize: 18.0, fontFamily: "Lobster", letterSpacing: 2.0),
         ),
-        actions: [
-          next ?
+        actions:next ? [
 
-          TextButton(
-            onPressed: (){
-              Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
-              Navigator.pushReplacement(context, newRoute);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Icon(Icons.refresh, color: Colors.white),
-            ),
+        DropdownButton(
+          underline: SizedBox(),
+          icon: Icon(
+            Icons.language,
+            color: Colors.blue,
           ),
+          items: getLanguages.map((Language lang) {
+            return new DropdownMenuItem<String>(
+              value: lang.languageCode,
+              child: new Text(lang.name),
+            );
+          }).toList(),
+
+          onChanged: (val) {
+            itemsCtegory = val;
+
+            print(val);
+          },
+
+
+        ),
 
 
 
           DropdownButton(
           underline: SizedBox(),
       icon: Icon(
-        Icons.language,
+        Icons.arrow_drop_down_circle_rounded,
         color: Colors.white,
       ),
-      items: getLanguages.map((Language lang) {
+      items: getSubCategory.map((SubCategory subcat) {
         return new DropdownMenuItem<String>(
-          value: lang.languageCode,
-          child: new Text(lang.name),
+          value: subcat.SubCategoryCode,
+          child: new Text(subcat.name),
         );
       }).toList(),
 
       onChanged: (val) {
-        itemsCtegory = val;
+        itemsSubCategory = val;
 
-
-        Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
-        Navigator.pushReplacement(context, newRoute);
         print(val);
       },
 
 
-
-
-
-
-
     )
-
+]
 
 
 
               :
+          [
               ElevatedButton(
                   onPressed: (){
                     if(  _image.length >= 5){
@@ -148,13 +152,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                 },
               ),
 
-              SizedBox(height: 5.0),
-              TextField(
-                decoration: InputDecoration(hintText: 'Enter Item Price'),
-                onChanged: (value) {
-                  this.itemCategory = value;
-                },
-              ),
+
               SizedBox(height: 5.0),
               TextField(
                 decoration: InputDecoration(hintText: 'Enter Item Name'),
@@ -190,7 +188,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                     uploadFile().whenComplete((){
                       Map<String, dynamic> adData ={
                         'userName' : getUserName,
-                        'itemCategory' : this.itemCategory,
+                        'itemCategory' : itemsCtegory,
 
                         'uId' : auth.currentUser.uid,
                         'userNumber': this.userNumber,
@@ -212,7 +210,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                       };
                       FirebaseFirestore.instance.collection('items')
                           .doc(itemsCtegory)
-                          .collection('Reports')
+                          .collection(itemsSubCategory)
                           .add(adData).then((value){
                         print("Data added successfully.");
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
@@ -322,7 +320,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
       });
       ref = firebase_storage.FirebaseStorage.instance.ref()
           .child('productImages')
-          .child(itemCategory).child(getUserName)
+          .child(itemsCtegory).child(itemsSubCategory).child(getUserName)
           .child(Path.basename(img.path));
 
       await ref.putFile(img).whenComplete(() async{

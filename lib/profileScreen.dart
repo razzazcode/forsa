@@ -171,6 +171,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   getResults(){
     FirebaseFirestore.instance.collection('items')
+        .doc(itemsCtegory)
+        .collection(itemsSubCategory)
         .where("uId", isEqualTo: widget.sellerId)
         .where("status", isEqualTo: "approved")
         .get().then((results){
@@ -231,7 +233,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         GestureDetector(
                             onDoubleTap: (){
                               if(items.docs[i].get('uId') == userId){
-                                FirebaseFirestore.instance.collection('items').doc(items.docs[i].id).delete();
+                                FirebaseFirestore.instance.collection('items')
+                                    .doc(itemsCtegory)
+                                    .collection(itemsSubCategory)
+                                    .doc(items.docs[i].id).delete();
                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => HomeScreen()));
                               }
                             },
