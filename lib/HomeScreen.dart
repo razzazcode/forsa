@@ -260,29 +260,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-          TextButton(
+          IconButton(
             onPressed: (){
               Route newRoute = MaterialPageRoute(builder: (_) => SearchProduct());
               Navigator.pushReplacement(context, newRoute);
             },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Icon(Icons.search, color: Colors.white),
-            ),
+           tooltip: "gkgjgj",
+            alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(00.0),
+              icon: Icon(Icons.search, color: Colors.white),
+
           ),
 
 
 
-       TextButton(
+          IconButton(
               onPressed: (){
                 Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
             Navigator.pushReplacement(context, newRoute);
               },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Icon(Icons.refresh, color: Colors.white),
-              ),
-          ),
+         icon: Icon(Icons.refresh, color: Colors.white),
+
+       ),
+
+
+
 
 
           DropdownButton(
@@ -306,6 +308,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushReplacement(context, newRoute);
               print(val);
             },
+
+            hint: Text("Category"),
+
           ),
 
           DropdownButton(
@@ -326,11 +331,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
               print(val);
             },
-
+hint: Text("SubCategory"),
 
           ),
 
-
+          Padding(
+            padding: const EdgeInsets.all(05.0),),
 
 
         ],
@@ -349,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         title: Text(getUserName),
-        centerTitle: false,
+        centerTitle: true,
       ),
 
       drawer: MyDrawer(),
