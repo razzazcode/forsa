@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:forsa/Widgets/Language.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:forsa/DialogBox/loadingDialog.dart';
 import 'package:forsa/globalVar.dart';
@@ -51,10 +52,58 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
           style: TextStyle(fontSize: 18.0, fontFamily: "Lobster", letterSpacing: 2.0),
         ),
         actions: [
-          next ? Container() :
+          next ?
+
+          TextButton(
+            onPressed: (){
+              Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+              Navigator.pushReplacement(context, newRoute);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Icon(Icons.refresh, color: Colors.white),
+            ),
+          ),
+
+
+
+          DropdownButton(
+          underline: SizedBox(),
+      icon: Icon(
+        Icons.language,
+        color: Colors.white,
+      ),
+      items: getLanguages.map((Language lang) {
+        return new DropdownMenuItem<String>(
+          value: lang.languageCode,
+          child: new Text(lang.name),
+        );
+      }).toList(),
+
+      onChanged: (val) {
+        itemsCtegory = val;
+
+
+        Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+        Navigator.pushReplacement(context, newRoute);
+        print(val);
+      },
+
+
+
+
+
+
+
+    )
+
+
+
+
+              :
               ElevatedButton(
                   onPressed: (){
-                    if(  _image.length >= 2  && _image.length <= 5){
+                    if(  _image.length >= 5){
                       setState(() {
                         uploading = true;
                         next = true;
@@ -82,12 +131,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(hintText: 'Item Category'),
-                onChanged: (value) {
-                  this.userName = value;
-                },
-              ),
+
+
               SizedBox(height: 5.0),
               TextField(
                 decoration: InputDecoration(hintText: 'Enter Your Phone Number'),
@@ -165,7 +210,10 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                         'time': DateTime.now(),
                         'status': "not approved",
                       };
-                      FirebaseFirestore.instance.collection('items').add(adData).then((value){
+                      FirebaseFirestore.instance.collection('items')
+                          .doc(itemsCtegory)
+                          .collection('Reports')
+                          .add(adData).then((value){
                         print("Data added successfully.");
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                       }).catchError((onError){
