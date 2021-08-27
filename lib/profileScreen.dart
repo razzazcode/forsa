@@ -128,9 +128,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'itemModel': this.itemModel,
                       'itemColor': this.itemColor,
                       'description': this.description,
+                      'lat': position.latitude,
+                      'lng': position.longitude,
+                      'address': completeAddress,
+                      'time': DateTime.now(),
                     };
 
- FirebaseFirestore.instance.collection('items').doc(selectedDoc)
+ FirebaseFirestore.instance.collection('items')
+     .doc(itemsCtegory)
+     .collection(itemsSubCategory).doc(selectedDoc)
      .update(itemData).then((value) {
      print("Data updated successfully.");
                     }).catchError((onError){
