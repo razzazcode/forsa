@@ -44,6 +44,7 @@ class ImageSliderScreen extends StatefulWidget {
 }
 
 class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTickerProviderStateMixin {
+  Future<void> _launched;
 
   TabController tabController;
   static List<String> links = [];
@@ -77,6 +78,31 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
     links.add(widget.urlImage5);
   }
 
+/*
+  _launchURL() async {
+    const url = 'https://flutter.io';
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: true);
+    }
+
+*/
+    Future<void> _launchInBrowser(String url) async {
+
+      const url = 'https://kol.jumia.com/api/click/app-link/9d067d05-ed6f-4a25-9396-2407fa7cdf6a/af34b683-aba7-4479-856f-d440d68664ab';
+
+
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: false,
+          headers: <String, String>{'my_header_key': 'my_header_value'},
+        );
+      }
+      else {
+      print ("Could not launch ");
+    }
+  }
 
   Future<void> _makePhoneCall(String url) async {
     if (await canLaunch(url)) {
@@ -174,9 +200,6 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
         }
     );
   }
-
-
-
 
 
 
@@ -360,10 +383,14 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 constraints: BoxConstraints.tightFor(width: 368,),
                 child: ElevatedButton(
                   child: Text('Check Seller Location'),
-                  onPressed: ()
-                  {
-                    MapsLauncher.launchCoordinates(widget.lat, widget.lng);
-                  },
+                  onPressed: () => setState(() {
+                     _launchInBrowser('https://kol.jumia.com/api/click/app-link/9d067d05-ed6f-4a25-9396-2407fa7cdf6a/af34b683-aba7-4479-856f-d440d68664ab') ;
+                  }),
+
+
+                 // { _launchInBrowser;
+                  //  MapsLauncher.launchCoordinates(widget.lat, widget.lng);
+                //  },
                 ),
               ),
             ),
@@ -376,6 +403,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                   child: Text('report product'),
                   onPressed: ()
                   {
+
                     showDialogForUpdateData(widget.itemid);
                   },
                 ),
