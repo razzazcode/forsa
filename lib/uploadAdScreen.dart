@@ -41,6 +41,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String itemPrice="";
   String itemModel="";
   String itemColor="";
+  String itemActualLink="";
+
   String description="";
 
 
@@ -162,11 +164,18 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
               ),
               SizedBox(height: 5.0),
               TextField(
-                decoration: InputDecoration(hintText: 'Enter Item Color'),
+                decoration: InputDecoration(hintText: 'Enter Item LinkName'),
                 onChanged: (value) {
                   this.itemColor = value;
                 },
               ),
+    SizedBox(height: 5.0),
+    TextField(
+    decoration: InputDecoration(hintText: 'Enter Item Link'),
+    onChanged: (value) {
+    this.itemActualLink = value;
+    },
+    ),
               SizedBox(height: 5.0),
               TextField(
                 decoration: InputDecoration(hintText: "Write some Item's Description"),
@@ -195,6 +204,9 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                         'itemPrice': this.itemPrice,
                         'itemModel': this.itemModel,
                         'itemColor': this.itemColor,
+                        'itemActualLink': this.itemActualLink,
+
+
                         'description': this.description,
                         'urlImage1': urlsList[0].toString(),
                         'urlImage2': urlsList[1].toString(),

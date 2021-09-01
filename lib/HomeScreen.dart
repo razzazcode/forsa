@@ -72,8 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
     userEmail = FirebaseAuth.instance.currentUser.email;
 
     FirebaseFirestore.instance.collection('items')
-        .doc(itemsCtegory)
-        .collection(itemsSubCategory)
+        .doc('electronics')
+        .collection('phone')
     .where("status", isEqualTo: "approved")
     .orderBy("time", descending: true)
     .get().then((results) {
@@ -180,6 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
          urlImage5: items.docs[i].get('urlImage5'),
          itemid:items.docs[i].id,
          sellerId:items.docs[i].get('uId'),
+           itemActualLink:items.docs[i].get('itemActualLink'),
        ));
        Navigator.pushReplacement(context, newRoute);
      },

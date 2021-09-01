@@ -12,7 +12,7 @@ import 'HomeScreen.dart';
 class ImageSliderScreen extends StatefulWidget {
 
   final String title, urlImage1, urlImage2, urlImage3, urlImage4, urlImage5;
-  final String itemColor, userNumber, description, address ,itemid , sellerId;
+  final String itemColor,itemActualLink, userNumber, description, address ,itemid , sellerId;
   final double lat, lng;
 
 
@@ -29,6 +29,7 @@ class ImageSliderScreen extends StatefulWidget {
     this.urlImage4,
     this.urlImage5,
     this.itemColor,
+    this.itemActualLink,
     this.userNumber,
     this.description,
     this.address,
@@ -46,16 +47,16 @@ class ImageSliderScreen extends StatefulWidget {
 class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTickerProviderStateMixin {
   Future<void> _launched;
 
-  TabController tabController;
+   TabController tabController;
   static List<String> links = [];
 
 
-  User currentUser;
+   User currentUser;
 
   FirebaseAuth auth = FirebaseAuth.instance;
-  String userName;
-  String itemModel;
-  String uidd ;
+   String userName;
+   String itemModel;
+   String uidd ;
   String reportDescription;
   QuerySnapshot items;
 
@@ -88,7 +89,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
 */
     Future<void> _launchInBrowser(String url) async {
 
-      const url = 'https://kol.jumia.com/api/click/app-link/9d067d05-ed6f-4a25-9396-2407fa7cdf6a/af34b683-aba7-4479-856f-d440d68664ab';
+     const  url = 'https://kol.jumia.com/api/click/app-link/9d067d05-ed6f-4a25-9396-2407fa7cdf6a/af34b683-aba7-4479-856f-d440d68664ab';
 
 
       if (await canLaunch(url)) {
@@ -332,7 +333,25 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.brush_outlined),
+
+                      GestureDetector(
+                        child: Icon(Icons.brush_outlined),
+
+                        onTap: ()async {
+                          String url = widget.itemActualLink;
+                          var urllaunchable = await canLaunch(url); //canLaunch is from url_launcher package
+                          if(urllaunchable){
+                            await launch(url); //launch is from url_launcher package to launch URL
+                          }else{
+                            print("URL can't be launched.");
+                          }
+                        },
+                        /*{
+                          setState(() {
+_launchInBrowser(widget.itemActualLink)   ;
+                          });
+                        },*/
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Align(
@@ -383,8 +402,8 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 constraints: BoxConstraints.tightFor(width: 368,),
                 child: ElevatedButton(
                   child: Text('Check Seller Location'),
-                  onPressed: () => setState(() {
-                     _launchInBrowser('https://kol.jumia.com/api/click/app-link/9d067d05-ed6f-4a25-9396-2407fa7cdf6a/af34b683-aba7-4479-856f-d440d68664ab') ;
+                  onPressed: () {
+                    MapsLauncher.launchCoordinates(widget.lat, widget.lng);
                   }),
 
 
@@ -393,7 +412,7 @@ class _ImageSliderScreenState extends State<ImageSliderScreen> with SingleTicker
                 //  },
                 ),
               ),
-            ),
+
             SizedBox(height: 20,),
 
             Center(
