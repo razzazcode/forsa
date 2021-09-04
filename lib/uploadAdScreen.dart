@@ -10,7 +10,8 @@ import 'package:forsa/DialogBox/loadingDialog.dart';
 import 'package:forsa/globalVar.dart';
 import 'package:toast/toast.dart';
 import 'package:path/path.dart' as Path;
-
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'HomeScreen.dart';
 import 'Widgets/SubCategory.dart';
 
@@ -36,7 +37,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String userName="";
   String userNumber="";
   //String itemCategory="";
-
+  String completeAddress1
+  = "";
 
   String itemPrice="";
   String itemModel="";
@@ -44,13 +46,48 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   String itemActualLink="";
 
   String description="";
+  _buildBackButton(){
+    return IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: (){
+          Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
+          Navigator.pushReplacement(context, newRoute);
+        }
+    );
+  }
 
+  getUserAddress() async{
+    Position newPostiton = await Geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    position = newPostiton;
+
+    placemarks = await placemarkFromCoordinates
+
+      (position.latitude, position.longitude);
+
+    Placemark placemark = placemarks[0];
+
+    String newCompleteAddress =
+        '${placemark.subThoroughfare} ${placemark.thoroughfare}, '
+        '${placemark.subThoroughfare} ${placemark.locality},  '
+        '${placemark.subAdministrativeArea}, '
+        '${placemark.administrativeArea} ${placemark.postalCode}, '
+        '${placemark.country}'
+    ;
+    completeAddress1 = newCompleteAddress;
+    print(completeAddress1);
+
+    return completeAddress1;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+          leading: _buildBackButton(),
+
+          title: Text(
           next ? "Please write Items's Info" : 'Choose Item Images',
           style: TextStyle(fontSize: 18.0, fontFamily: "Lobster", letterSpacing: 2.0),
         ),
@@ -107,6 +144,7 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
 
               :
           [
+
               ElevatedButton(
                   onPressed: (){
                     if(  _image.length >= 5){
@@ -146,6 +184,57 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                   this.userNumber = value;
                 },
               ),
+
+
+    SizedBox(height: 5.0),
+    DropdownButtonFormField(
+    //  underline: SizedBox(),
+    icon: Icon(
+    Icons.arrow_drop_down_circle_rounded,
+    color: Colors.blueGrey,
+    ),
+    items: getSubCategory.map((SubCategory subcat) {
+    return new DropdownMenuItem<String>(
+    value: subcat.SubCategoryCode,
+    child: new Text(subcat.name),
+    );
+    }).toList(),
+
+    onChanged: (val) {
+    itemsSubCategory = val;
+
+    print(val);
+    },
+    ),
+
+
+
+
+
+
+    SizedBox(height: 5.0),
+    DropdownButtonFormField(
+    //  underline: SizedBox(),
+    icon: Icon(
+    Icons.arrow_drop_down_circle_rounded,
+    color: Colors.blue,
+    ),
+    items: getLanguages.map((Language lang) {
+    return new DropdownMenuItem<String>(
+    value: lang.languageCode,
+    child: new Text(lang.name),
+    );
+    }).toList(),
+
+    onChanged: (val) {
+    itemsSubCategory = val;
+
+    print(val);
+    },
+    ),
+
+
+
               SizedBox(height: 5.0),
               TextField(
                 decoration: InputDecoration(hintText: 'Enter Item Price'),
@@ -171,9 +260,9 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
               ),
     SizedBox(height: 5.0),
     TextField(
-    decoration: InputDecoration(hintText: 'Enter Item Link'),
+    decoration: InputDecoration(hintText: 'Enter Item Link www.myname.com'),
     onChanged: (value) {
-    this.itemActualLink = value;
+    this.itemActualLink = "https://" + value;
     },
     ),
               SizedBox(height: 5.0),
@@ -206,6 +295,8 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
                         'itemColor': this.itemColor,
                         'itemActualLink': this.itemActualLink,
 
+
+    'completeAddress1': completeAddress1,
 
                         'description': this.description,
                         'urlImage1': urlsList[0].toString(),
@@ -356,6 +447,10 @@ class _UploadAdScreenState extends State<UploadAdScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    getUserAddress();
+
+
     imgRef = FirebaseFirestore.instance.collection('imageUrls');
   }
 }

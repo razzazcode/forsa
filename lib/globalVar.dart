@@ -15,9 +15,27 @@ String getUserNumber = "please enter your phone number here like +1 0123456789";
 String itemsCtegory = "items";
 String itemsSubCategory = "SubCategory";
 
+
 String adUserName = "";
 String adUserImageUrl = "";
-
 String completeAddress = "";
 List<Placemark> placemarks;
 Position position;
+/*
+
+
+  String adrs;
+
+
+  if ( widget.address.isEmpty){
+  adrs =  widget.completeAddress1;
+  }
+  else{
+
+
+  adrs =  widget.address;
+
+
+
+  }
+ */
