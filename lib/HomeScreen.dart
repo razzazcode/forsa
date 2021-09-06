@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: items.docs.length,
             padding: EdgeInsets.all(8.0),
             itemBuilder: (context, i){
-              return Card(
+               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: Column(
  children: [
@@ -246,17 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        /*   leading: MyDrawer(),
-             IconButton(
-          icon: Icon(Icons.refresh, color: Colors.white),
-          onPressed: (){
-            Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
-            Navigator.pushReplacement(context, newRoute);
-          },
-        ),
 
 
-        */
         actions: <Widget>[
 
 
@@ -336,11 +327,14 @@ hint: Text("SubCategory"),
 
           ),
 
+          /*
           Padding(
-            padding: const EdgeInsets.all(05.0),),
+            padding: const EdgeInsets.all(05.0),
 
+          ),
 
         ],
+
         flexibleSpace: Container(
           decoration: new BoxDecoration(
             gradient: new LinearGradient(
@@ -357,16 +351,63 @@ hint: Text("SubCategory"),
         ),
         title: Text(getUserName),
         centerTitle: true,
+        */
+        ]
       ),
 
       drawer: MyDrawer(),
 
 
-        body: Center(
-        child: Container(
+        body: SingleChildScrollView(
+    child: Padding(
+    padding: const EdgeInsets.all(30.0),
+    child: Column(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+
+
+
+
+
+
+
+          SizedBox(height: 5.0),
+       DropdownButtonFormField(
+            //  underline: SizedBox(),
+            icon: Icon(
+              Icons.arrow_drop_down_circle_rounded,
+              color: Colors.blue,
+            ),
+            items: getLanguages.map((Language lang) {
+              return new DropdownMenuItem<String>(
+                value: lang.languageCode,
+                child: new Text(lang.name),
+              );
+            }).toList(),
+
+            onChanged: (val) {
+              itemsSubCategory = val;
+
+              print(val);
+            },
+          ),
+
+
+
+
+
+
+
+
+          Container(
           width: _screenWidth,
           child: showItemsList(),
         ),
+
+
+    ],
+    ),
+    ),
       ),
 
 
